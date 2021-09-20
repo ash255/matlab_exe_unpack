@@ -7,4 +7,5 @@
    但这仍然无法确定这两个key是否可以用于其他matlab版本
 3. 若以上两个key无法正常工作，可以使用keyer.cpp获取其他版本的key，
    由于加载依赖的关系，必须把mclmcr.dll所在matlab路径在keyer.cpp重新设置，否则LoadLibrary将失败
+4. 由于lib文件过大，使用时解压一下
    
