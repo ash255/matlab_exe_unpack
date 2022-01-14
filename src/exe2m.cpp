@@ -247,7 +247,8 @@ int main(int argc, char **argv)
 
     if (argc < 2)
     {
-        printf("usage: %s <exe file>\n", argv[0]);
+        printf("usage: %s [file]\n", argv[0]);
+		printf("file: exe file path\n", argv[0]);
         system("pause");
         return 0;
     }
