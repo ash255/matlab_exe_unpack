@@ -21,7 +21,7 @@
     <ClCompile Include="src\zip.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\keyer.cpp">
+    <ClCompile Include="src\logger.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -602,10 +602,10 @@
     <ClInclude Include="include\zip.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\keyer.h">
+    <ClInclude Include="include\def.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\def.h">
+    <ClInclude Include="include\logger.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

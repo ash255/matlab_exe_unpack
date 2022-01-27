@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\exe2m.cpp" />
-    <ClCompile Include="src\keyer.cpp" />
+    <ClCompile Include="src\logger.c" />
     <ClCompile Include="src\zip.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -230,8 +230,8 @@
     <ClInclude Include="include\iterhash.h" />
     <ClInclude Include="include\kalyna.h" />
     <ClInclude Include="include\keccak.h" />
-    <ClInclude Include="include\keyer.h" />
     <ClInclude Include="include\lea.h" />
+    <ClInclude Include="include\logger.h" />
     <ClInclude Include="include\lubyrack.h" />
     <ClInclude Include="include\luc.h" />
     <ClInclude Include="include\mars.h" />

@@ -253,7 +253,17 @@ static int dec_matlab_file_v1(ArrayByte mfile_data, string output_file, int vers
     
 #endif
 
+    int cnt = 1;
+    string tmp_file = output_file + ".m";
+    while (_access(tmp_file.data(), 0) == 0)
+    {
+        tmp_file = output_file + "_" + std::to_string(cnt++) + ".m";
+    }
+    output_file = tmp_file;
+
     StringSource(file_body_uncompress_data, true, new FileSink(output_file.data()));
+
+    __LOG_MESSAGE__("dec_matlab_file_v1", "output: %s done\n", output_file.data());
     return 1;
 }
 
@@ -338,8 +348,19 @@ static int dec_matlab_file_v2(ArrayByte mfile_data, string output_file, int vers
     }
 #endif
 
+    
+    int cnt = 1;
+    string tmp_file = output_file + ".m";
+    while (_access(tmp_file.data(), 0) == 0)
+    {
+        tmp_file = output_file + "_" + std::to_string(cnt++) + ".m";
+    }
+    output_file = tmp_file;
+
     ArrayByte plain = file_body_uncompress_data.substr(256);
     StringSource(plain, true, new FileSink(output_file.data()));
+
+    __LOG_MESSAGE__("dec_matlab_file_v2", "output: %s done\n", output_file.data());
     return 1;
 }
 
@@ -555,13 +576,9 @@ int main(int argc, char **argv)
         {
             try
             {
-                if (exe2m_main(zip_file_ptr->get_uncompress_data(), output_file + zip_file_ptr->get_name() + ".m") == 0)
+                if (exe2m_main(zip_file_ptr->get_uncompress_data(), output_file + zip_file_ptr->get_name()) == 0)
                 {
                     __LOG_ERROR__("main", "dec %s failed\n", zip_file_ptr->get_full_name().data());
-                }
-                else
-                {
-                    __LOG_MESSAGE__("main", "dec %s done\n", zip_file_ptr->get_full_name().data());
                 }
             }
             catch (CryptoPP::Exception e)
@@ -626,10 +643,6 @@ int main(int argc, char **argv)
             if (exe2m_main(to_dec_file->get_uncompress_data(), output_file) == 0)
             {
                 __LOG_ERROR__("main", "dec %s failed\n", to_dec_file->get_full_name().data());
-            }
-            else
-            {
-                __LOG_MESSAGE__("main", "dec %s done\n", to_dec_file->get_full_name().data());
             }
         }
         catch (CryptoPP::Exception e)
