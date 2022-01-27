@@ -1,3 +1,4 @@
+#include <iostream>
 #include "zip.h"
 #include "zinflate.h"
 #include "files.h"
@@ -6,10 +7,13 @@
 #pragma comment(lib, "cryptlib.lib")
 
 using namespace CryptoPP;
-using namespace std;
+using std::string;
+using std::cout;
+using std::endl;
 
+const string zip::ZIP_MAGIC_WORD = "\x50\x4B\x03\x04";
 
-zip::zip(string zip_file_path) :m_full_name(zip_file_path)
+zip::zip(string zip_file_path) :m_full_name(zip_file_path), m_zip_header({0})
 {
     ArrayByte file_data;
     FileSource(zip_file_path.c_str(), true, new StringSink(file_data));
@@ -40,6 +44,7 @@ bool zip::zip_uncompress(ArrayByte zip_data, size_t zip_data_len)
 
 bool zip::zip_decode_header(ArrayByte zip_data, size_t zip_data_len)
 {
+    static const uint32_t zip_signature = 0x04034B50;
     zip_header header;
 
     if (zip_data_len < sizeof(zip_header::header))
@@ -47,7 +52,7 @@ bool zip::zip_decode_header(ArrayByte zip_data, size_t zip_data_len)
         return false;
     }
     memcpy(&header.m_header, zip_data.c_str(), sizeof(zip_header::header));
-    if (header.m_header.signature != ZIP_MAGIC_WORD)
+    if (header.m_header.signature != zip_signature)
     {
         return false;
     }
@@ -72,6 +77,10 @@ bool zip::zip_decode_header(ArrayByte zip_data, size_t zip_data_len)
             header.m_header.compressed_size);
     }
 
+    if (m_full_name.empty())
+    {
+        m_full_name = string(header.m_file_name);
+    }
     split_file_name(header.m_file_name);
     m_zip_header = header;
     return true;

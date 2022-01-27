@@ -2,7 +2,7 @@
 #include <string>
 #include "def.h"
 
-using namespace std;
+using std::string;
 
 class zip
 {
@@ -10,11 +10,16 @@ public:
     zip(ArrayByte zip_data, size_t zip_data_len) { m_valid = zip_uncompress(zip_data, zip_data_len); }
     zip(string zip_file_path);
     string get_full_name() { return m_full_name; }
+    void set_full_name(string full_name) { m_full_name = full_name; }
     string get_path() { return m_path; }
     string get_name() { return m_name; }
     string get_suffix() { return m_suffix; }
+    int get_uncompressed_size() { return m_zip_header.m_header.uncompressed_size; }
+    int get_compressed_size() { return m_zip_header.m_header.compressed_size; }
     bool is_valid() { return m_valid; }
     ArrayByte get_uncompress_data() { return m_valid ? m_data_before_compress : ""; }
+
+    static const string ZIP_MAGIC_WORD;
 
 private:
     void split_file_name(string file_name);
@@ -69,8 +74,4 @@ private:
     string m_name;
     string m_suffix;
     bool m_valid;
-    enum
-    {
-        ZIP_MAGIC_WORD = 0x04034B50
-    };
 };
